@@ -6,8 +6,8 @@ import (
 )
 
 type TCPServer struct {
-	host string
-	port string
+	Host string
+	Port string
 }
 
 type ConnectionHandler interface {
@@ -15,14 +15,14 @@ type ConnectionHandler interface {
 }
 
 func (server TCPServer) ServeForever(handler ConnectionHandler) {
-	listener, err := net.Listen("tcp", server.host+":"+server.port)
+	listener, err := net.Listen("tcp", server.Host+":"+server.Port)
 	if err != nil {
 		return
 	}
 
 	defer listener.Close()
 
-	fmt.Println("Listening on port " + server.port + "...")
+	fmt.Println("Listening on port " + server.Port + "...")
 
 	// Serve forever
 	for {
