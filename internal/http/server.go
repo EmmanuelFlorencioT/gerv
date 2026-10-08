@@ -15,18 +15,20 @@ type HTTPServer struct {
 func (server HTTPServer) HandleConnection(conn net.Conn) {
 	defer conn.Close()
 	// read bytes & parse request
-	parsedRequest, err := ParseRequest(conn)
-	if err != nil {
-		fmt.Println(err)
+	parsedRequest, rErr := ParseRequest(conn)
+	if rErr != nil {
+		fmt.Println(rErr)
 		return
 	}
 
 	resp := HandleRequest(*parsedRequest)
 
 	// respond
-	// respond with desired resource if available
-	// respond with failure if not available
-	// close connection
+	wErr := SendResponse(conn, *resp)
+	if wErr != nil {
+		fmt.Println(wErr)
+		return
+	}
 }
 
 func (server HTTPServer) Serve() {
