@@ -20,7 +20,9 @@ func (server HTTPServer) HandleConnection(conn net.Conn) {
 		fmt.Println(err)
 		return
 	}
-	_ = parsedRequest
+
+	resp := HandleRequest(*parsedRequest)
+
 	// respond
 	// respond with desired resource if available
 	// respond with failure if not available
