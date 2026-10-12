@@ -3,6 +3,7 @@ package tcp
 import (
 	"fmt"
 	"net"
+	"errors"
 )
 
 type TCPServer struct {
@@ -14,10 +15,10 @@ type ConnectionHandler interface {
 	HandleConnection(net.Conn)
 }
 
-func (server TCPServer) ServeForever(handler ConnectionHandler) {
+func (server TCPServer) ServeForever(handler ConnectionHandler) error {
 	listener, err := net.Listen("tcp", server.Host+":"+server.Port)
 	if err != nil {
-		return
+		return errors.New("Failed to start TCP server: " + err.Error())
 	}
 
 	defer listener.Close()
@@ -28,7 +29,7 @@ func (server TCPServer) ServeForever(handler ConnectionHandler) {
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			fmt.Println("Failed to accept connection", err)
+			fmt.Println("Failed to accept connection", err.Error())
 			continue
 		}
 

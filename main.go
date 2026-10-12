@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"github.com/EmmanuelFlorencioT/gerv/internal/http"
 )
 
@@ -10,5 +11,7 @@ func main() {
 		Port: "8080",
 	}
 
-	server.Serve()
+	if err := server.Serve(); err != nil {
+		log.Fatalf("Failed to serve HTTP server: %w", err)
+	}
 }

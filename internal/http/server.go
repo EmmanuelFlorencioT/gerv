@@ -31,11 +31,16 @@ func (server HTTPServer) HandleConnection(conn net.Conn) {
 	}
 }
 
-func (server HTTPServer) Serve() {
+func (server HTTPServer) Serve() error {
 	tcpServer := tcp.TCPServer{
 		Host: server.Host,
 		Port: server.Port,
 	}
 
-	tcpServer.ServeForever(server)
+	err := tcpServer.ServeForever(server)
+	if err != nil {
+		return errors.New("Failed to serve HTTP server: " + err.Error())
+	}
+	
+	return nil
 }
